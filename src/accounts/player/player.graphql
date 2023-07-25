@@ -1,0 +1,17 @@
+"""
+Player object
+"""
+type Player {
+  id: String!
+  name: String!
+  turnNo: Int!
+  """
+  get player assets
+  """
+  assets: Assets
+}
+
+input PlayerInput {
+  id: String!
+  name: String!
+}

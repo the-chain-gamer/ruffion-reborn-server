@@ -1,0 +1,16 @@
+"""
+Common Session object returned by all types of users
+"""
+type Session {
+  user: Player!
+  auth: SessionAuth!
+  game: Game!
+}
+
+"""
+Authentication token and other data for user sessions
+"""
+type SessionAuth {
+  token: String!
+}
+

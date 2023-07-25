@@ -1,0 +1,45 @@
+enum GameStatus {
+  WAITING
+  STARTED
+  OVER
+}
+enum EventName {
+  FORFEIT
+  JOINED
+  TURNCHANGE
+  MOVE
+  ATTACK
+}
+type Game {
+  id: ID!
+  name: String
+  player1: Player!
+  player2: Player
+  winner: Player
+  turn: Player
+  status: GameStatus!
+  appliedAttackCard: AppliedCard
+  eventName: EventName
+}
+
+type Mutation {
+  createGame(player: PlayerInput!, assets: AssetsInput!, gameName: String!): Session
+  joinGame(player: PlayerInput!, assets: AssetsInput!, gameId: ID!): Session
+  makeMove(moves: [MoveDogInput!]!): Boolean
+  makeAttack(
+    appliedAttackCard: AppliedCardInput!
+    opponentMoves: [MoveDogInput!]
+    moves: [MoveDogInput!]
+  ): Boolean
+
+  claimTurn: Boolean
+  handOverTurn: Boolean
+}
+
+type Query {
+  games: [Game!]!
+}
+
+type Subscription {
+  gameUpdates: Game
+}

@@ -1,0 +1,10 @@
+type Move {
+  player: Player!
+  unit: Int!
+  dog: String!
+}
+
+input MoveInput {
+  dog: String!
+  unit: Int!
+}

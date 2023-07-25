@@ -1,0 +1,143 @@
+"""Player object"""
+type Player {
+  id: String!
+  name: String!
+  turnNo: Int!
+
+  """get player assets"""
+  assets: Assets
+}
+
+input PlayerInput {
+  id: String!
+  name: String!
+}
+
+"""Common Session object returned by all types of users"""
+type Session {
+  user: Player!
+  auth: SessionAuth!
+  game: Game!
+}
+
+"""Authentication token and other data for user sessions"""
+type SessionAuth {
+  token: String!
+}
+
+type Card {
+  id: ID!
+  name: String!
+}
+
+type Dog {
+  id: ID!
+  name: String!
+  health: Int!
+  tileNo: Int!
+}
+
+type Assets {
+  id: ID!
+  dogs: [Dog!]!
+  cards: [Card!]!
+}
+
+input CardInput {
+  id: ID!
+  name: String!
+}
+
+input DogInput {
+  id: ID!
+  name: String!
+  health: Int!
+  tileNo: Int!
+}
+
+input MoveDogInput {
+  id: ID!
+  tileNo: Int!
+  health: Int!
+}
+
+input AppliedCardInput {
+  dogId: ID!
+  cardId: ID!
+  targetDogs: [TargetDogsInput!]!
+}
+
+type AppliedCard {
+  dogId: ID!
+  cardId: ID!
+  targetDogs: [TargetDogs!]!
+}
+
+type TargetDogs {
+  playerId: ID!
+  dogId: ID!
+}
+
+input TargetDogsInput {
+  playerId: ID!
+  dogId: ID!
+}
+
+input AssetsInput {
+  dogs: [DogInput!]!
+  cards: [CardInput!]!
+}
+
+enum GameStatus {
+  WAITING
+  STARTED
+  OVER
+}
+
+enum EventName {
+  FORFEIT
+  JOINED
+  TURNCHANGE
+  MOVE
+  ATTACK
+}
+
+type Game {
+  id: ID!
+  name: String
+  player1: Player!
+  player2: Player
+  winner: Player
+  turn: Player
+  status: GameStatus!
+  appliedAttackCard: AppliedCard
+  eventName: EventName
+}
+
+type Mutation {
+  createGame(player: PlayerInput!, assets: AssetsInput!, gameName: String!): Session
+  joinGame(player: PlayerInput!, assets: AssetsInput!, gameId: ID!): Session
+  makeMove(moves: [MoveDogInput!]!): Boolean
+  makeAttack(appliedAttackCard: AppliedCardInput!, opponentMoves: [MoveDogInput!], moves: [MoveDogInput!]): Boolean
+  claimTurn: Boolean
+  handOverTurn: Boolean
+}
+
+type Query {
+  games: [Game!]!
+}
+
+type Subscription {
+  gameUpdates: Game
+}
+
+type Move {
+  player: Player!
+  unit: Int!
+  dog: String!
+}
+
+input MoveInput {
+  dog: String!
+  unit: Int!
+}

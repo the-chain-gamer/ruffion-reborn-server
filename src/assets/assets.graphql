@@ -1,0 +1,62 @@
+type Card {
+  id: ID!
+  name: String!
+}
+
+type Dog {
+  id: ID!
+  name: String!
+  health: Int!
+  tileNo: Int!
+}
+
+type Assets {
+  id: ID!
+  dogs: [Dog!]!
+  cards: [Card!]!
+}
+
+input CardInput {
+  id: ID!
+  name: String!
+}
+
+input DogInput {
+  id: ID!
+  name: String!
+  health: Int!
+  tileNo: Int!
+}
+
+input MoveDogInput {
+  id: ID!
+  tileNo: Int!
+  health: Int!
+}
+
+input AppliedCardInput {
+  dogId: ID!
+  cardId: ID!
+  targetDogs: [TargetDogsInput!]!
+}
+
+type AppliedCard {
+  dogId: ID!
+  cardId: ID!
+  targetDogs: [TargetDogs!]!
+}
+
+type TargetDogs {
+  playerId: ID!
+  dogId: ID!
+}
+
+input TargetDogsInput {
+  playerId: ID!
+  dogId: ID!
+}
+
+input AssetsInput {
+  dogs: [DogInput!]!
+  cards: [CardInput!]!
+}
