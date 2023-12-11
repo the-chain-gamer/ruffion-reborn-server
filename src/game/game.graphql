@@ -3,6 +3,7 @@ enum GameStatus {
   STARTED
   OVER
 }
+
 enum EventName {
   FORFEIT
   JOINED
