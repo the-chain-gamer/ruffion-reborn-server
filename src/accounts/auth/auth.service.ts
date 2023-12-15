@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private jwtService: JwtService) {}
 
   // Build User Session
-  session(user: Player, game: Game): Session {
+  session(user: Player, game: Game | null = null): Session {
     return {
       user,
       auth: { token: this.generateToken(user, game) },
@@ -17,8 +17,8 @@ export class AuthService {
   }
 
   // Generate JWT Token for a given user
-  generateToken(user: Player, game: Game): string {
-    const payload = { sub: user.id, gameId: game.id };
+  generateToken(user: Player, game: Game | null ): string {
+    const payload = { sub: user.id, gameId: game?.id };
     return this.jwtService.sign(payload);
   }
 

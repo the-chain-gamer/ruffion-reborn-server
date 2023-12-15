@@ -11,11 +11,10 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly authService: AuthService,
     private playerService: PlayerService,
-    private gameService: GameService,
+    private gameService: GameService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: true,
       secretOrKey: fetchConfig('app', 'jwt_secret'),
     });
   }
@@ -25,7 +24,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     const { sub, gameId } = payload;
     const player = await this.playerService.get({ id: sub }); // fetch player profile
     const game = await this.gameService.get({ id: gameId }); // fetch game
-    if (!(player && game)) throw new UnauthorizedException();
+    if (!player) throw new UnauthorizedException();
     return { data: { game, player } };
   }
 }

@@ -68,7 +68,9 @@ export class MoveInput {
 
 export class Player {
     id: string;
-    name: string;
+    email: string;
+    firstName: string;
+    lastName: string;
     turnNo: number;
     assets?: Nullable<Assets>;
 }
@@ -76,11 +78,33 @@ export class Player {
 export class Session {
     user: Player;
     auth: SessionAuth;
-    game: Game;
+    game?: Nullable<Game>;
 }
 
 export class SessionAuth {
     token: string;
+}
+
+export abstract class IMutation {
+    abstract googleLogin(access_token: string): Nullable<Session> | Promise<Nullable<Session>>;
+
+    abstract createGame(assets: AssetsInput, gameName: string): Nullable<Session> | Promise<Nullable<Session>>;
+
+    abstract joinGame(assets: AssetsInput, gameId: string): Nullable<Session> | Promise<Nullable<Session>>;
+
+    abstract makeMove(moves: MoveDogInput[]): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract makeAttack(appliedAttackCard: AppliedCardInput, opponentMoves?: Nullable<MoveDogInput[]>, moves?: Nullable<MoveDogInput[]>): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract claimTurn(): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract handOverTurn(): Nullable<boolean> | Promise<Nullable<boolean>>;
+}
+
+export abstract class IQuery {
+    abstract currentSession(): Nullable<Session> | Promise<Nullable<Session>>;
+
+    abstract games(): Game[] | Promise<Game[]>;
 }
 
 export class Card {
@@ -122,24 +146,6 @@ export class Game {
     status: GameStatus;
     appliedAttackCard?: Nullable<AppliedCard>;
     eventName?: Nullable<EventName>;
-}
-
-export abstract class IMutation {
-    abstract createGame(player: PlayerInput, assets: AssetsInput, gameName: string): Nullable<Session> | Promise<Nullable<Session>>;
-
-    abstract joinGame(player: PlayerInput, assets: AssetsInput, gameId: string): Nullable<Session> | Promise<Nullable<Session>>;
-
-    abstract makeMove(moves: MoveDogInput[]): Nullable<boolean> | Promise<Nullable<boolean>>;
-
-    abstract makeAttack(appliedAttackCard: AppliedCardInput, opponentMoves?: Nullable<MoveDogInput[]>, moves?: Nullable<MoveDogInput[]>): Nullable<boolean> | Promise<Nullable<boolean>>;
-
-    abstract claimTurn(): Nullable<boolean> | Promise<Nullable<boolean>>;
-
-    abstract handOverTurn(): Nullable<boolean> | Promise<Nullable<boolean>>;
-}
-
-export abstract class IQuery {
-    abstract games(): Game[] | Promise<Game[]>;
 }
 
 export abstract class ISubscription {

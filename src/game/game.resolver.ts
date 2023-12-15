@@ -19,35 +19,38 @@ export class GameResolver {
     @Inject('PUB_SUB') private pubSub: PubSubEngine,
   ) {}
 
-  @Auth(Access.Public)
+  @Auth(Access.Private)
   @Mutation('createGame')
-  createGame(@Args('player') player: PlayerInput,
+  createGame(@Context() ctx:any,
              @Args('gameName') gameName: string,
              @Args('assets') assets: AssetsInput,
   ) {
+
+    const {player}=ctx.req.user.data;
     return this.gameService.createGame(player, gameName, assets);
   }
 
 
-  @Auth(Access.Public)
+  @Auth(Access.Private)
   @Mutation('joinGame')
   async joinGame(
-    @Args('player') player: PlayerInput,
+    @Context() ctx:any,
     @Args('gameId') gameId: string,
     @Args('assets') assets: AssetsInput,
   ) {
+    const {player}=ctx.req.user.data;
     const session = await this.gameService.joinGame(player, gameId, assets);
     await this.pubSub.publish(`gameUpdates-${session.game.id}`, { gameUpdates: { ...session.game, eventName: EventName.JOINED } });
     return session;
   }
 
-  @Auth(Access.Public)
+  @Auth(Access.Private)
   @Query('games')
   games() {
     return this.gameService.all({ status: GameStatus.WAITING });
   }
 
-  @Auth(Access.Private)
+  @Auth(Access.Private,true)
   @Mutation('makeMove')
   async makeMove(@Args('moves') moves: Array<MoveDogInput>, @Context() ctx: any) {
     const { game, player } = ctx.req.user.data;
@@ -70,7 +73,7 @@ export class GameResolver {
     return !!updatedAssets;
   }
 
-  @Auth(Access.Private)
+  @Auth(Access.Private,true)
   @Mutation('claimTurn')
   async claimTurn(@Context() ctx: any) {
     const { game, player } = ctx.req.user.data;
@@ -84,7 +87,7 @@ export class GameResolver {
     return !!updatedGame;
   }
 
-  @Auth(Access.Private)
+  @Auth(Access.Private,true)
   @Mutation('handOverTurn')
   async handOverTurn(@Context() ctx: any) {
     const { game, player } = ctx.req.user.data;
@@ -99,7 +102,7 @@ export class GameResolver {
     return !!updatedGame;
   }
 
-  @Auth(Access.Private)
+  @Auth(Access.Private,true)
   @Mutation('makeAttack')
   async makeAttack(
     @Context() ctx: any,

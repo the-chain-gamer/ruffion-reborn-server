@@ -10,7 +10,6 @@ import { printSchema } from 'graphql';
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { PubSub } from 'graphql-subscriptions';
-import { fetchConfig } from './app.config';
 import { GameService } from './game/game.service';
 import { AuthService } from './accounts/auth/auth.service';
 
@@ -19,7 +18,6 @@ const PATH_GEN_ROOT = join(process.cwd(), 'gen/graphql/');
 const PATH_GEN_SDL = join(PATH_GEN_ROOT, 'schema.gql');
 const PATH_GEN_TYPES = join(PATH_GEN_ROOT, 'index.ts');
 
-const corsConfig = fetchConfig('app', 'cors');
 
 // Global GraphQL Configuration
 // - This generates types whenever app starts
@@ -32,6 +30,7 @@ class ConfigService implements GqlOptionsFactory {
       driver: ApolloDriver,
       typePaths: PATH_SOURCES,
       playground: true,
+      csrfPrevention:false,
       subscriptions: {
         'graphql-ws': {
           onConnect: async (ctx: any) => {
@@ -42,6 +41,7 @@ class ConfigService implements GqlOptionsFactory {
             try {
               const decodedToken = this.authService.verifyToken(auth_token);
               const { sub, gameId } = decodedToken;
+              if(!(sub && gameId)) throw new Error();
               extra.user = { sub, gameId };
             } catch (e) {
               throw new UnauthorizedException();

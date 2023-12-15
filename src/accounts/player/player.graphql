@@ -3,7 +3,9 @@ Player object
 """
 type Player {
   id: String!
-  name: String!
+  email:String!
+  firstName:String!
+  lastName:String!
   turnNo: Int!
   """
   get player assets

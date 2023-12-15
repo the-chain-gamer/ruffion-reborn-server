@@ -96,6 +96,12 @@ export const loadConfig = () => {
       database: parse('DB_NAME', STRING),
       synchronize: false,
     },
+    auth:{
+      google:{
+        clientID: parse('GOOGLE_CLIENT_ID',STRING),
+        clientSecret: parse('GOOGLE_CLIENT_SECRET',STRING)
+      }
+    },
     mailer: {
       transport: {
         host: parse('MAIL_HOST', STRING),

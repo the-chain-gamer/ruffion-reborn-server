@@ -7,6 +7,7 @@ import { DisableWithoutAuth } from './auth.guard';
 import { AuthService } from './auth.service';
 import { JWTStrategy } from './jwt.strategy';
 import { PlayerModule } from '../player/player.module';
+import {GoogleTokenStrategy} from "./google.strategy";
 
 const JWTConfig = JwtModule.registerAsync({
   useFactory: async () => ({
@@ -24,6 +25,6 @@ const GlobalDisableWithoutAuth = {
 @Module({
   imports: [JWTConfig, PassportModule, PlayerModule],
   exports: [AuthService],
-  providers: [AuthService, JWTStrategy, GlobalDisableWithoutAuth],
+  providers: [AuthService, JWTStrategy, GoogleTokenStrategy, GlobalDisableWithoutAuth],
 })
 export class AuthModule {}

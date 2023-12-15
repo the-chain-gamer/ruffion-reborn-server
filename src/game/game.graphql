@@ -24,8 +24,8 @@ type Game {
 }
 
 type Mutation {
-  createGame(player: PlayerInput!, assets: AssetsInput!, gameName: String!): Session
-  joinGame(player: PlayerInput!, assets: AssetsInput!, gameId: ID!): Session
+  createGame( assets: AssetsInput!, gameName: String!): Session
+  joinGame( assets: AssetsInput!, gameId: ID!): Session
   makeMove(moves: [MoveDogInput!]!): Boolean
   makeAttack(
     appliedAttackCard: AppliedCardInput!

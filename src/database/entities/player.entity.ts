@@ -5,10 +5,16 @@ export class Player {
   @PrimaryColumn()
   id: string;
 
-  @Column()
-  name: string;
+  @Column('citext', { unique: true })
+  email: string;
 
-  @Column({ type: 'int' })
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column({ type: 'int',default:0 })
   turnNo: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
