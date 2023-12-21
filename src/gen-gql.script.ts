@@ -8,5 +8,5 @@ const generate = async () => {
   await generateGraphQLTypes();
   // generateGraphQLSchema(app);
 };
-
+console.log('Running');
 RunInContext(generate);

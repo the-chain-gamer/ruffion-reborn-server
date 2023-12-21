@@ -1,9 +1,8 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column} from 'typeorm';
+import {Base} from "./base.entity";
 
 @Entity()
-export class Player {
-  @PrimaryColumn()
-  id: string;
+export class Player extends Base {
 
   @Column('citext', { unique: true })
   email: string;
@@ -16,10 +15,4 @@ export class Player {
 
   @Column({ type: 'int',default:0 })
   turnNo: number;
-
-  @CreateDateColumn({ type: 'timestamptz' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamptz' })
-  updatedAt: Date;
 }
