@@ -1,8 +1,8 @@
-import {Context, Mutation, Resolver,Query} from '@nestjs/graphql';
+import {Context, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {AuthService} from 'src/accounts/auth/auth.service';
 import {Access, Auth, SocialAuth, SocialType} from "../auth/auth.decorator";
 import {PlayerService} from 'src/accounts/player/player.service';
-import {Session} from "../../../gen/graphql";
+import {PlayerType, Session} from "../../../gen/graphql";
 
 @Resolver('Session')
 export class SessionResolver {
@@ -15,6 +15,13 @@ export class SessionResolver {
     const {email,firstName,lastName}=ctx.req.user.data;
     let player=await this.playerService.get({email});
     if(!player) player=await this.playerService.save({email,firstName,lastName})
+    return this.authService.session(player)
+  }
+
+  @Auth(Access.Public)
+  @Mutation('guestLogin')
+  async guestLogin(@Context() ctx:any):Promise<Session>{
+    const player=await this.playerService.save({playerType:PlayerType.Guest})
     return this.authService.session(player)
   }
 

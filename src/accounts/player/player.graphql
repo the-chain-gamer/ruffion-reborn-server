@@ -1,11 +1,20 @@
 """
+Player Type
+"""
+enum PlayerType{
+  User
+  Guest
+}
+
+"""
 Player object
 """
 type Player {
+  playerType:PlayerType!
   id: String!
-  email:String!
-  firstName:String!
-  lastName:String!
+  email:String
+  firstName:String
+  lastName:String
   turnNo: Int!
   """
   get player assets

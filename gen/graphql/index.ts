@@ -8,6 +8,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum PlayerType {
+    User = "User",
+    Guest = "Guest"
+}
+
 export enum GameStatus {
     WAITING = "WAITING",
     STARTED = "STARTED",
@@ -67,10 +72,11 @@ export class MoveInput {
 }
 
 export class Player {
+    playerType: PlayerType;
     id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+    email?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
     turnNo: number;
     assets?: Nullable<Assets>;
 }
@@ -87,6 +93,8 @@ export class SessionAuth {
 
 export abstract class IMutation {
     abstract googleLogin(access_token: string): Nullable<Session> | Promise<Nullable<Session>>;
+
+    abstract guestLogin(): Nullable<Session> | Promise<Nullable<Session>>;
 
     abstract createGame(assets: AssetsInput, gameName: string): Nullable<Session> | Promise<Nullable<Session>>;
 

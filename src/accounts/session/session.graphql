@@ -16,6 +16,7 @@ type SessionAuth {
 
 type Mutation {
   googleLogin(access_token:String!):Session
+  guestLogin:Session
 }
 
 type Query{
