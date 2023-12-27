@@ -40,7 +40,7 @@ export class GameGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const {user:{data:{game}}} = GqlExecutionContext.create(context).getContext();
+    const {req:{user:{data:{game}}}} = GqlExecutionContext.create(context).getContext();
     const gameMode=getMode<boolean>(this.reflector, context,META_MODE.Game);
     if(gameMode) return !!game;
     return true;
