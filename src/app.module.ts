@@ -7,6 +7,8 @@ import { Web3Module } from 'src/web3/web3.module';
 import { GameModule } from 'src/game/game.module';
 import { loadConfig } from './app.config';
 import { GQLModule, GQLSubscriptionProvider } from './graphql.utils';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { AssetsModule } from './assets/assets.module';
 import { MoveModule } from './move/move.module';
 
@@ -20,6 +22,11 @@ const AppConfig = ConfigModule.forRoot({
 // Export Root App
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'client'),
+      exclude:['/graphql','/app/health']
+
+    }),
     AppConfig,
     GQLModule,
     DatabaseModule,
