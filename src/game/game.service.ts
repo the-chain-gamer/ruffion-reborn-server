@@ -157,7 +157,7 @@ export class GameService {
 
   buildExpiry(): Date {
     const expiry = new Date();
-    const interval = expiry.getSeconds() + 30;
+    const interval = expiry.getSeconds() + 50;
     expiry.setSeconds(interval);
     return expiry;
   }
