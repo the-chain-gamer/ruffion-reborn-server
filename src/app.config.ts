@@ -47,7 +47,6 @@ function parse<T extends EnvType>(key: string, cast: EnvConstructor<T>): T {
  */
 const getEnvName = (): Env => {
   const env = process.env.NODE_ENV;
-  console.log('enCCC',env);
   if (!env) return Env.dev;
   if (env in Env) return env as Env;
 
