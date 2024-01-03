@@ -2,7 +2,6 @@ import { NestFactory, repl } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { fetchConfig } from './app.config';
 import { generateGraphQLSchema } from './graphql.utils';
-var compression = require('compression')
 const REPL_FLAG = '--with-repl';
 
 async function bootstrap() {
@@ -12,11 +11,6 @@ async function bootstrap() {
 
   // Start Web Server
   const app = await NestFactory.create(AppModule,{cors});
-  // app.use(compression());
-  app.use(compression({
-    filter: () => { return true },
-    threshold: 0
-  }));
   await app.listen(port);
   // Generate GraphQL SDL
   generateGraphQLSchema(app);
