@@ -151,6 +151,7 @@ export class Game {
     player2?: Nullable<Player>;
     winner?: Nullable<Player>;
     turn?: Nullable<Player>;
+    turnExpiresAt?: Nullable<Date>;
     status: GameStatus;
     appliedAttackCard?: Nullable<AppliedCard>;
     eventName?: Nullable<EventName>;

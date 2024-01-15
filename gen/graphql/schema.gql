@@ -113,6 +113,8 @@ input AssetsInput {
   cards: [CardInput!]!
 }
 
+scalar Date
+
 enum GameStatus {
   WAITING
   STARTED
@@ -134,6 +136,7 @@ type Game {
   player2: Player
   winner: Player
   turn: Player
+  turnExpiresAt: Date
   status: GameStatus!
   appliedAttackCard: AppliedCard
   eventName: EventName
